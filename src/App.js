@@ -1,9 +1,8 @@
 import React from 'react'
 import * as BooksAPI from './BooksAPI'
 import './App.css'
-import searchBooks from './searchBooks'
 import searchScreen from './searchScreen'
-import main from './main'
+import Main from './Main'
 import { Link } from 'react-router-dom'
 import { Route } from 'react-router-dom'
 
@@ -13,7 +12,7 @@ class BooksApp extends React.Component {
     return (
       <div className="app">
         <Route exact path="/search" component={searchScreen} />
-        <Route exact path="/" component={main} />
+        <Route exact path="/" component={Main} />
       </div>
       )
     }

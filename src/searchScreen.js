@@ -1,13 +1,14 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import * as BooksAPI from './BooksAPI'
+import Book from './Book'
 
 class searchScreen extends Component {
   constructor(){
     super()
     this.state = {
       query: '',
-      books: []
+      books: [],
     }
   }
 
@@ -16,9 +17,8 @@ class searchScreen extends Component {
     const trimmedQuery = query.trim()
     if (trimmedQuery === '') return
 
+    const { mainBooks } = this.props
     BooksAPI.search(trimmedQuery, 10).then((response) => {
-      console.log(trimmedQuery, response)
-
       const books = response.map((book) => {
         return {
           id: book.id,
@@ -29,9 +29,9 @@ class searchScreen extends Component {
             thumbnail: book.imageLinks.thumbnail
           }
         }
-        console.log(book)
       })
       this.setState({ books: books })
+      console.log(books)
       })
   }
 
@@ -48,24 +48,13 @@ class searchScreen extends Component {
         <div className="search-books-results">
           <ol className="books-grid">
             {books.map((book) => (
-              <li>
-                <div className="book">
-                  <div className="book-top">
-                    <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: 'url(' + book.imageLinks.thumbnail + ')' }}></div>
-                    <div className="book-shelf-changer">
-                      <select>
-                        <option value="none" disabled>Move to...</option>
-                        <option value="currentlyReading">Currently Reading</option>
-                        <option value="wantToRead">Want to Read</option>
-                        <option value="read">Read</option>
-                        <option value="none">None</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div className="book-title">{book.title}</div>
-                  <div className="book-authors">{book.authors}</div>
-                </div>
-              </li>
+              <Book
+              id={ book.id }
+              shelf={ book.shelf }
+              authors={ book.authors }
+              title={ book.title }
+              imageLinks={ book.imageLinks }
+              />
             ))}
           </ol>
         </div>
