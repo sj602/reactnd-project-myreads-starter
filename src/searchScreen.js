@@ -1,42 +1,50 @@
-import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
-import * as BooksAPI from './BooksAPI'
-import Book from './Book'
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import * as BooksAPI from './BooksAPI';
+import Book from './Book';
 
-class searchScreen extends Component {
+class SearchScreen extends Component {
   constructor(){
     super()
     this.state = {
       query: '',
-      books: [],
-    }
+      books: []
+    };
   }
 
   searchQuery(query) {
-    this.setState({ query: query })
-    const trimmedQuery = query.trim()
-    if (trimmedQuery === '') return
+    const trimmedQuery = query.trim();
+
+    this.setState({ query: query });
+
+    if (trimmedQuery === '') return;
 
     const { mainBooks } = this.props
     BooksAPI.search(trimmedQuery, 10).then((response) => {
-      const books = response.map((book) => {
-        return {
-          id: book.id,
-          shelf: book.shelf,
-          authors: book.authors,
-          title: book.title,
-          imageLinks: {
-            thumbnail: book.imageLinks.thumbnail
-          }
-        }
-      })
-      this.setState({ books: books })
-      console.log(books)
-      })
+      if (response && response.length){
+        const books = response.map((book) => {
+          const libBook = mainBooks.find((libBook) => libBook.id === book.id);
+          const shelf = libBook ? libBook.shelf : 'none';
+
+          return {
+            id: book.id,
+            shelf: book.shelf,
+            authors: book.authors,
+            title: book.title,
+            imageLinks: {
+              thumbnail: book.imageLinks.thumbnail
+            }
+          };
+        });
+        this.setState({ books })
+      }
+    });
   }
 
   render() {
-    const { books } = this.state
+    const { books } = this.state;
+    const { updateBookShelf } = this.props;
+
     return (
       <div className="search-books">
         <div className="search-books-bar">
@@ -54,13 +62,14 @@ class searchScreen extends Component {
               authors={ book.authors }
               title={ book.title }
               imageLinks={ book.imageLinks }
+              updateBookShelf={ updateBookShelf }
               />
             ))}
           </ol>
         </div>
       </div>
-    )
+    );
   }
 }
 
-export default searchScreen
+export default SearchScreen
