@@ -3,6 +3,8 @@
   import Bookshelf from './Bookshelf';
 
   class Main extends Component {
+    // books 가 없는 경우 예외처리를 안 해줘서 에러가 생기는 것 같다.
+    // const wantToRead = books.filter(book => book.shelf == 'wanttoread')
     filterBooks = (shelf) => {
       const { books } = this.props;
       return books.filter((book) => book.shelf === shelf);

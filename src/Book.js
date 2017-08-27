@@ -23,7 +23,6 @@ class Book extends Component {
       const { shelf } = this.state;
 
       return (
-        <li>
           <div className="book">
             <div className="book-top">
               <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: 'url(' + thumbnail + ')' }}></div>
@@ -40,7 +39,6 @@ class Book extends Component {
             <div className="book-title">{ title }</div>
             <div className="book-authors">{ authors }</div>
           </div>
-        </li>
   );
   }
 }

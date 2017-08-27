@@ -7,18 +7,23 @@ export default function Bookshelf({ name, books, updateBookShelf }) {
         <h2 className="bookshelf-title">{ name }</h2>
         <div className="bookshelf-books">
           <ol className="books-grid">
-            {books.map((book) => (
-              <Book
-              id={ book.id }
-              shelf={ book.shelf }
-              authors={ book.authors }
-              title={ book.title }
-              imageLinks={ book.imageLinks }
-              updateBookShelf={ updateBookShelf }
-              />
+            {
+              books.sort((a, b) => {
+                return a.title > b.title;
+              }).map((book) => (
+                <li key={ book.id }>
+                  <Book
+                  id={ book.id }
+                  shelf={ book.shelf }
+                  authors={ book.authors }
+                  title={ book.title }
+                  imageLinks={ book.imageLinks }
+                  updateBookShelf={ updateBookShelf }
+                  />
+                </li>
             ))}
           </ol>
         </div>
       </div>
-    )
-}
+    );
+};

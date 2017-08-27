@@ -12,23 +12,23 @@ class SearchScreen extends Component {
     };
   }
 
-  searchQuery(query) {
-    const trimmedQuery = query.trim();
+  searchQuery = (query) => {
+    const { libraryBooks } = this.props;
 
     this.setState({ query: query });
-
-    if (trimmedQuery === '') return;
-
-    const { mainBooks } = this.props
+    const trimmedQuery = query.trim();
+    if (trimmedQuery === '') {
+      return;
+    }
     BooksAPI.search(trimmedQuery, 10).then((response) => {
-      if (response && response.length){
+      if (response && response.length) {
         const books = response.map((book) => {
-          const libBook = mainBooks.find((libBook) => libBook.id === book.id);
+          const libBook = libraryBooks.find((libBook) => libBook.id === book.id);
           const shelf = libBook ? libBook.shelf : 'none';
 
           return {
             id: book.id,
-            shelf: book.shelf,
+            shelf: shelf,
             authors: book.authors,
             title: book.title,
             imageLinks: {
@@ -36,7 +36,7 @@ class SearchScreen extends Component {
             }
           };
         });
-        this.setState({ books })
+        this.setState({ books });
       }
     });
   }
@@ -56,14 +56,16 @@ class SearchScreen extends Component {
         <div className="search-books-results">
           <ol className="books-grid">
             {books.map((book) => (
-              <Book
-              id={ book.id }
-              shelf={ book.shelf }
-              authors={ book.authors }
-              title={ book.title }
-              imageLinks={ book.imageLinks }
-              updateBookShelf={ updateBookShelf }
-              />
+              <li key={ book.id }>
+                <Book
+                id={ book.id }
+                shelf={ book.shelf }
+                authors={ book.authors }
+                title={ book.title }
+                imageLinks={ book.imageLinks }
+                updateBookShelf={ updateBookShelf }
+                />
+              </li>
             ))}
           </ol>
         </div>
@@ -72,4 +74,4 @@ class SearchScreen extends Component {
   }
 }
 
-export default SearchScreen
+export default SearchScreen;
