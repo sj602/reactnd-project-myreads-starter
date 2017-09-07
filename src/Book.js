@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import * as BooksAPI from './BooksAPI'
 
 class Book extends Component {
     constructor() {
@@ -7,21 +8,13 @@ class Book extends Component {
     }
 
     changeBookShelf(value) {
-      const { updateBookShelf } = this.props;
-      updateBookShelf(this.props, value);
       this.setState({ shelf: value})
-    }
-
-    componentDidMount() {
-      const { shelf } = this.props;
-      this.setState({ shelf });
+      // window.history.back()
     }
 
     render() {
-      const { title, authors, imageLinks } = this.props;
+      const { title, authors, imageLinks, shelf, id} = this.props;
       const { thumbnail } = imageLinks;
-      const { shelf } = this.state;
-
       return (
           <div className="book">
             <div className="book-top">

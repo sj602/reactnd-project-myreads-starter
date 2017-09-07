@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import * as BooksAPI from './BooksAPI';
 import Book from './Book';
+import Bookshelf from './Bookshelf'
 
 class SearchScreen extends Component {
-  constructor(){
-    super()
+  constructor(props){
+    super(props)
     this.state = {
       query: '',
       books: []
@@ -13,7 +14,6 @@ class SearchScreen extends Component {
   }
 
   searchQuery = (query) => {
-    const { libraryBooks } = this.props;
 
     this.setState({ query: query });
     const trimmedQuery = query.trim();
@@ -23,12 +23,9 @@ class SearchScreen extends Component {
     BooksAPI.search(trimmedQuery, 10).then((response) => {
       if (response && response.length) {
         const books = response.map((book) => {
-          const libBook = libraryBooks.find((libBook) => libBook.id === book.id);
-          const shelf = libBook ? libBook.shelf : 'none';
-
           return {
             id: book.id,
-            shelf: shelf,
+            shelf: book.shelf,
             authors: book.authors,
             title: book.title,
             imageLinks: {
@@ -43,7 +40,6 @@ class SearchScreen extends Component {
 
   render() {
     const { books } = this.state;
-    const { updateBookShelf } = this.props;
 
     return (
       <div className="search-books">
@@ -55,15 +51,14 @@ class SearchScreen extends Component {
         </div>
         <div className="search-books-results">
           <ol className="books-grid">
-            {books.map((book) => (
-              <li key={ book.id }>
+            { books.map((book) => (
+              <li>
                 <Book
                 id={ book.id }
                 shelf={ book.shelf }
                 authors={ book.authors }
                 title={ book.title }
                 imageLinks={ book.imageLinks }
-                updateBookShelf={ updateBookShelf }
                 />
               </li>
             ))}

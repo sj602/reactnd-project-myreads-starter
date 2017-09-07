@@ -3,15 +3,21 @@
   import Bookshelf from './Bookshelf';
 
   class Main extends Component {
+    // 빈 books array 때문에..
     // books 가 없는 경우 예외처리를 안 해줘서 에러가 생기는 것 같다.
     // const wantToRead = books.filter(book => book.shelf == 'wanttoread')
-    filterBooks = (shelf) => {
-      const { books } = this.props;
-      return books.filter((book) => book.shelf === shelf);
+    // filterBooks = (shelf) => {
+    //   const { books } = this.props;
+    //   return books.filter((book) => book.shelf === shelf);
+    // }
+
+    // const wantToRead = books.filter(book => book.shelf == 'wantToRead');
+
+    fn(books){
+
     }
 
     render() {
-      const { updateBookShelf } = this.props;
 
       return (
         <div className="list-books">
@@ -21,17 +27,23 @@
           <div className="list-books-content">
             <div>
               <Bookshelf
-                name="Currently Reading"
-                books={ this.filterBooks('currentlyReading')}
-                updateBookShelf={ updateBookShelf } />
+                name="wantToRead"
+                books={this.props.books.filter((book) => {
+                  return book.shelf === 'wantToRead'
+                })}
+              />
               <Bookshelf
-                name="Want To Read"
-                books={ this.filterBooks('wantToRead')}
-                updateBookShelf={ updateBookShelf } />
+                name="currentlyReading"
+                books={this.props.books.filter((book) => {
+                  return book.shelf === 'currentlyReading'
+                })}
+              />
               <Bookshelf
-                name="Read"
-                books={ this.filterBooks('read')}
-                updateBookShelf={ updateBookShelf } />
+                name="read"
+                books={this.props.books.filter((book) => {
+                  return book.shelf === 'read'
+                })}
+              />
             </div>
           </div>
           <div className="open-search">
