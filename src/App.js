@@ -1,7 +1,7 @@
 import React from 'react'
 import './App.css'
 import SearchScreen from './SearchScreen'
-import Main from './Main'
+import Main from './main'
 import * as BooksAPI from './BooksAPI'
 import { Route } from 'react-router-dom'
 
@@ -20,29 +20,6 @@ class BooksApp extends React.Component {
     })
   }
 
-  // updateBookShelf = (book, updatedShelf) => {
-  //   const { books } = this.state;
-  //
-  //   const bookIndex = books.findIndex((key) => {
-  //     return key.id === book.id;
-  //   });
-  //
-  //   let stateBooks = Object.assign([], books);
-  //
-  //   if (bookIndex === -1) {
-  //     const newBook = Object.assign({}, book);
-  //     newBook.shelf = updatedShelf;
-  //     stateBooks.push(newBook);
-  //   } else {
-  //     stateBooks[bookIndex] = Object.assign({}, stateBooks[bookIndex]);
-  //     stateBooks[bookIndex].shelf = updatedShelf;
-  //   }
-  //
-  //   BooksAPI.update(book, updatedShelf).then(
-  //     this.setState({ books: stateBooks })
-  //   );
-  // };
-
   handleShelf = (book, shelf) => {
     BooksAPI.update(book, shelf).then((books) => {
       BooksAPI.getAll().then((books) => {
@@ -58,10 +35,10 @@ class BooksApp extends React.Component {
     return (
       <div className="app">
         <Route exact path="/search" render={() => (
-          <SearchScreen libraryBooks={this.state.books} handleShelf={this.handleShelf} />
+          <SearchScreen libraryBooks={ books } handleShelf={this.handleShelf} />
         )} />
         <Route exact path="/" render={() => (
-          <Main books={this.state.books} handleShelf={this.handleShelf} />
+          <Main books={ books } handleShelf={this.handleShelf} />
         )} />
       </div>
       )
