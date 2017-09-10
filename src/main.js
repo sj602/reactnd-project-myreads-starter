@@ -1,7 +1,7 @@
   import React, { Component } from 'react';
   import { Link } from 'react-router-dom';
   import Bookshelf from './Bookshelf';
-
+  
   class Main extends Component {
     // 빈 books array 때문에..
     // books 가 없는 경우 예외처리를 안 해줘서 에러가 생기는 것 같다.
@@ -13,9 +13,8 @@
 
     // const wantToRead = books.filter(book => book.shelf == 'wantToRead');
 
-    fn(books){
 
-    }
+    // Q. Main페이지에서 shelf를 바꾸면 안 넘어가는점.
 
     render() {
 
@@ -31,18 +30,21 @@
                 books={this.props.books.filter((book) => {
                   return book.shelf === 'wantToRead'
                 })}
+                handleShelf={ this.props.handleShelf }
               />
               <Bookshelf
                 name="currentlyReading"
                 books={this.props.books.filter((book) => {
                   return book.shelf === 'currentlyReading'
                 })}
+                handleShelf={ this.props.handleShelf }
               />
               <Bookshelf
                 name="read"
                 books={this.props.books.filter((book) => {
                   return book.shelf === 'read'
                 })}
+                handleShelf={ this.props.handleShelf }
               />
             </div>
           </div>

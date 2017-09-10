@@ -8,13 +8,22 @@ class Book extends Component {
     }
 
     changeBookShelf(value) {
+      const { handleShelf } = this.props
+      handleShelf(this.props, value)
       this.setState({ shelf: value})
       // window.history.back()
     }
 
+    componentDidMount () {
+        const { shelf } = this.props;
+        this.setState({ shelf });
+    };
+
     render() {
-      const { title, authors, imageLinks, shelf, id} = this.props;
+      const { title, authors, imageLinks, id } = this.props;
       const { thumbnail } = imageLinks;
+      const { shelf } = this.state
+      
       return (
           <div className="book">
             <div className="book-top">

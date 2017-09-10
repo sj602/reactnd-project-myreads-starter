@@ -14,18 +14,25 @@ class SearchScreen extends Component {
   }
 
   searchQuery = (query) => {
+    const { libraryBooks } = this.props
 
     this.setState({ query: query });
-    const trimmedQuery = query.trim();
-    if (trimmedQuery === '') {
+    if (query === '') {
       return;
     }
-    BooksAPI.search(trimmedQuery, 10).then((response) => {
+    BooksAPI.search(query, 10).then((response) => {
       if (response && response.length) {
         const books = response.map((book) => {
+
+          const libBook = libraryBooks.find((libBook) => libBook.id === book.id);
+          console.log(libBook)
+          // if there is already a searchedbook in the shelf,
+          const shelf = libBook ? libBook.shelf : 'none';
+          // attain libbook.shelf to const shelf. if not, none
+
           return {
             id: book.id,
-            shelf: book.shelf,
+            shelf: shelf,
             authors: book.authors,
             title: book.title,
             imageLinks: {
@@ -40,25 +47,27 @@ class SearchScreen extends Component {
 
   render() {
     const { books } = this.state;
+    const { handleShelf } = this.props
 
     return (
       <div className="search-books">
         <div className="search-books-bar">
           <Link to="/" className="close-search">Close</Link>
             <div className="search-books-input-wrapper">
-                <input type="text" onChange={ (e) => this.searchQuery(e.target.value) } name="searchTerm" placeholder="Search by title or author" />
+                <input type="text" onChange={(e) => this.searchQuery(e.target.value) } name="searchTerm" placeholder="Search by title or author" />
             </div>
         </div>
         <div className="search-books-results">
           <ol className="books-grid">
             { books.map((book) => (
-              <li>
+              <li key={ book. id }>
                 <Book
                 id={ book.id }
                 shelf={ book.shelf }
                 authors={ book.authors }
                 title={ book.title }
                 imageLinks={ book.imageLinks }
+                handleShelf={ handleShelf }
                 />
               </li>
             ))}
