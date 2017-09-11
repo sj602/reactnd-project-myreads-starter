@@ -1,7 +1,7 @@
 import React from 'react'
 import './App.css'
 import SearchScreen from './SearchScreen'
-import Main from './main'
+import Main from './Main'
 import * as BooksAPI from './BooksAPI'
 import { Route } from 'react-router-dom'
 
@@ -16,16 +16,15 @@ class BooksApp extends React.Component {
   componentDidMount() {
     BooksAPI.getAll().then((books) => {
       this.setState({ books: books })
-      console.log(books)
     })
   }
 
   handleShelf = (book, shelf) => {
-    BooksAPI.update(book, shelf).then((books) => {
-      BooksAPI.getAll().then((books) => {
-        this.setState({ books: books })
+    if( book.shelf !== shelf ){
+      BooksAPI.update(book, shelf).then((data) => {
+        this.setState({ books: data })
       })
-    })
+    }
   }
   // Q. handleShelf(book, shelf) { ... } 이런식으로 썻다면 차이점? 밑에 render부분도 handleShelf={this.handleShelf(book, shelf)}가 되는지..
 
