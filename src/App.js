@@ -20,11 +20,16 @@ class BooksApp extends React.Component {
   }
 
   handleShelf = (book, shelf) => {
+    const newBooks = this.state.books
     if( book.shelf !== shelf ){
       BooksAPI.update(book, shelf).then((data) => {
-        this.setState({ books: data })
-      })
-    }
+        this.setState(prev => {
+          return {
+            books: prev.books.filter((b) => book.id !== b.id)
+                             .concat([{...book, shelf}])
+          }
+        })
+      })}
   }
   // Q. handleShelf(book, shelf) { ... } 이런식으로 썻다면 차이점? 밑에 render부분도 handleShelf={this.handleShelf(book, shelf)}가 되는지..
 

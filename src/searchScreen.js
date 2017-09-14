@@ -25,7 +25,6 @@ class SearchScreen extends Component {
         const books = response.map((book) => {
 
           const libBook = libraryBooks.find((libBook) => libBook.id === book.id);
-          console.log(libBook)
           // if there is already a searchedbook in the shelf,
           const shelf = libBook ? libBook.shelf : 'none';
           // attain libbook.shelf to const shelf. if not, none
