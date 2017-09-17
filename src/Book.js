@@ -1,7 +1,13 @@
 import React, { Component } from 'react';
 import * as BooksAPI from './BooksAPI'
+import PropTypes from 'prop-types';
 
 class Book extends Component {
+    static propTypes = {
+      handleShelf: PropTypes.func.isRequired,
+      shelf: PropTypes.string.isRequired,
+    }
+
     constructor() {
       super();
       this.state = { shelf: 'none' };
@@ -23,7 +29,7 @@ class Book extends Component {
       const { title, authors, imageLinks, id } = this.props;
       const { thumbnail } = imageLinks;
       const { shelf } = this.state
-      
+
       return (
           <div className="book">
             <div className="book-top">

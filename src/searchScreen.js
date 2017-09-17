@@ -2,9 +2,15 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import * as BooksAPI from './BooksAPI';
 import Book from './Book';
-import Bookshelf from './Bookshelf'
+import Bookshelf from './Bookshelf';
+import PropTypes from 'prop-types';
 
 class SearchScreen extends Component {
+  static propTypes = {
+    libraryBooks: PropTypes.array.isRequired,
+    handleShelf: PropTypes.func.isRequired,
+  };
+
   constructor(props){
     super(props)
     this.state = {
