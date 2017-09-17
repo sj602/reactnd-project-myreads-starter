@@ -11,6 +11,16 @@ class Main extends Component {
 
   render() {
     const { books, handleShelf } = this.props;
+    const wantToRead = books.filter((book) => {
+      return book.shelf === 'wantToRead';
+    });
+    const currentlyReading = books.filter((book) => {
+      return book.shelf === 'currentlyReading';
+    });
+    const read = books.filter((book) => {
+      return book.shelf === 'read';
+    });
+
     return (
       <div className="list-books">
         <div className="list-books-title">
@@ -20,23 +30,17 @@ class Main extends Component {
           <div>
             <Bookshelf
               name="wantToRead"
-              books={books.filter((book) => {
-                return book.shelf === 'wantToRead'
-              })}
+              books={ wantToRead }
               handleShelf={ handleShelf }
             />
             <Bookshelf
               name="currentlyReading"
-              books={books.filter((book) => {
-                return book.shelf === 'currentlyReading'
-              })}
+              books={ currentlyReading }
               handleShelf={ handleShelf }
             />
             <Bookshelf
               name="read"
-              books={books.filter((book) => {
-                return book.shelf === 'read'
-              })}
+              books={ read }
               handleShelf={ handleShelf }
             />
           </div>
